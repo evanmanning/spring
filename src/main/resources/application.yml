@@ -1,0 +1,3 @@
+server:
+  contextPath: /kushikino
+  port: 7777
