@@ -5,10 +5,10 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans
                            http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
 
-  <bean id="peachStore" class="org.kushikino.PeachStore">
+  <bean id="peachStore" class="org.kushikino.store.PeachStore">
     <property name="peachGenerator" ref="peachGenerator"/>
   </bean>
 
-  <bean id="peachGenerator" class="org.kushikino.PeachGenerator"/>
+  <bean id="peachGenerator" class="org.kushikino.store.PeachGenerator"/>
 
 </beans>

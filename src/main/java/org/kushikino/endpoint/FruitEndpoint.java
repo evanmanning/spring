@@ -1,7 +1,9 @@
-package org.kushikino;
+package org.kushikino.endpoint;
 
+import org.kushikino.store.MelonStore;
+import org.kushikino.store.PeachStore;
+import org.kushikino.store.StrawberryStore;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -10,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("fruit")
-public class FruitWebService {
+public class FruitEndpoint {
 
   // Field injection via autowiring
   // Bean defined by StrawberryStore class annotated with @Component
@@ -18,18 +20,15 @@ public class FruitWebService {
   private StrawberryStore strawberryStore;
 
   // Constructor injection via autowiring
-  // Bean defined by getMelonStore method annotated with @Bean, in Beans class annotated with @Configuration
+  // Bean defined by getMelonStore method annotated with @Bean, in ApplicationConfig class annotated with @Configuration
   private MelonStore melonStore;
 
   // Setter injection via autowiring
-  // Bean defined by peachStore bean in beans.xml
+  // Bean defined by peachStore bean in application-config.xml
   private PeachStore peachStore;
 
   @Autowired
-  ApplicationContext applicationContext;
-
-  @Autowired
-  public FruitWebService(MelonStore melonStore) {
+  public FruitEndpoint(MelonStore melonStore) {
     this.melonStore = melonStore;
   }
 

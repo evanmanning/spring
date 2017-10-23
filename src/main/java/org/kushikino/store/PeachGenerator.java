@@ -1,4 +1,4 @@
-package org.kushikino;
+package org.kushikino.store;
 
 public class PeachGenerator {
 

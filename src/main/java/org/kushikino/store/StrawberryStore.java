@@ -1,4 +1,4 @@
-package org.kushikino;
+package org.kushikino.store;
 
 import org.springframework.stereotype.Component;
 
