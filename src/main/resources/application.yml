@@ -1,3 +1,9 @@
-server:
-  contextPath: /kushikino
-  port: 7777
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/evanmanning
+    username: evanmanning
+    password:
+
+  jackson:
+    serialization:
+      write_dates_as_timestamps: false
