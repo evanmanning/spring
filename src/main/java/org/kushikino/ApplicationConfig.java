@@ -5,6 +5,7 @@ import org.kushikino.store.MelonStore;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 
 @Configuration
@@ -19,5 +20,10 @@ public class ApplicationConfig {
   public SessionFactory getSessionFactory(EntityManagerFactory entityManagerFactory) {
     return entityManagerFactory.unwrap(SessionFactory.class);
   }
+
+  //@Bean
+  //public EntityManager getEntityManager(EntityManagerFactory entityManagerFactory) {
+  //  return entityManagerFactory.createEntityManager();
+  //}
 
 }

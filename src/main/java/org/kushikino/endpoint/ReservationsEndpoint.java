@@ -1,17 +1,19 @@
 package org.kushikino.endpoint;
 
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.kushikino.model.Person;
 import org.kushikino.model.Reservation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+
+import javax.persistence.EntityManager;
+import javax.transaction.Transactional;
 
 @RestController
 @RequestMapping(
@@ -20,28 +22,40 @@ import org.springframework.web.bind.annotation.RestController;
 )
 public class ReservationsEndpoint {
 
-  private SessionFactory sessionFactory;
+  private EntityManager entityManager;
 
   @Autowired
-  public ReservationsEndpoint(SessionFactory sessionFactory) {
-    this.sessionFactory = sessionFactory;
+  public ReservationsEndpoint(EntityManager entityManager) {
+    this.entityManager = entityManager;
   }
 
   @RequestMapping(
       path = "/{id}",
       method = RequestMethod.GET
   )
+  @Transactional
   public ResponseEntity<Reservation> getReservation(@PathVariable("id") int id) {
-    Session session = sessionFactory.openSession();
 
-    session.beginTransaction();
+    Reservation reservation = entityManager.find(Reservation.class, id);
 
-    Reservation reservation = session.get(Reservation.class, id);
-
-    session.getTransaction().commit();
-    session.close();
+    if (reservation == null) {
+      return new ResponseEntity<Reservation>(HttpStatus.NOT_FOUND);
+    }
 
     return ResponseEntity.ok(reservation);
+  }
+
+  @RequestMapping(
+      method = RequestMethod.POST
+  )
+  @Transactional
+  public ResponseEntity createReservation(@RequestBody Reservation reservation) {
+
+    entityManager.persist(reservation);
+
+    HttpHeaders headers = new HttpHeaders();
+    headers.add("X-Entity-Id", "" + reservation.getId());
+    return new ResponseEntity(headers, HttpStatus.CREATED);
   }
 
 }

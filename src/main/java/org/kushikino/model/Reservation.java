@@ -1,8 +1,11 @@
 package org.kushikino.model;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
@@ -15,12 +18,16 @@ import java.util.Set;
 public class Reservation {
 
   @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
   private int id;
 
   @Column(name = "confirmation_code")
   private String confirmationCode;
 
-  @OneToMany(fetch = FetchType.EAGER)
+  @OneToMany(
+      fetch = FetchType.EAGER,
+      cascade = CascadeType.ALL
+  )
   @JoinTable(
       name = "reservation_person",
       joinColumns = @JoinColumn(name = "reservation_id"),
@@ -28,7 +35,10 @@ public class Reservation {
   )
   private Set<Person> persons;
 
-  @OneToMany(fetch = FetchType.EAGER)
+  @OneToMany(
+      fetch = FetchType.EAGER,
+      cascade = CascadeType.ALL
+  )
   @JoinTable(
       name = "reservation_flight",
       joinColumns = @JoinColumn(name = "reservation_id"),
