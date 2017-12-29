@@ -26,24 +26,20 @@ public class Reservation {
 
   @OneToMany(
       fetch = FetchType.EAGER,
-      cascade = CascadeType.ALL
-  )
+      cascade = CascadeType.ALL)
   @JoinTable(
       name = "reservation_person",
       joinColumns = @JoinColumn(name = "reservation_id"),
-      inverseJoinColumns = @JoinColumn(name = "person_id")
-  )
+      inverseJoinColumns = @JoinColumn(name = "person_id"))
   private Set<Person> persons;
 
   @OneToMany(
       fetch = FetchType.EAGER,
-      cascade = CascadeType.ALL
-  )
+      cascade = CascadeType.ALL)
   @JoinTable(
       name = "reservation_flight",
       joinColumns = @JoinColumn(name = "reservation_id"),
-      inverseJoinColumns = @JoinColumn(name = "flight_id")
-  )
+      inverseJoinColumns = @JoinColumn(name = "flight_id"))
   private Set<Flight> flights;
 
   public int getId() {

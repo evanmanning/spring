@@ -1,5 +1,6 @@
 drop table if exists reservation cascade;
 drop table if exists person cascade;
+drop table if exists phone_number cascade;
 drop table if exists flight cascade;
 drop table if exists reservation_person cascade;
 drop table if exists reservation_flight cascade;
@@ -14,6 +15,13 @@ create table person (
   surname varchar(255),
   given_name varchar(255),
   birth_date date
+);
+
+create table phone_number (
+  id serial primary key,
+  country_code varchar(10),
+  number varchar(50),
+  person_id integer references person(id)
 );
 
 create table flight (
