@@ -5,6 +5,8 @@ drop table if exists flight cascade;
 drop table if exists reservation_person cascade;
 drop table if exists reservation_flight cascade;
 
+drop table if exists time cascade;
+
 create table reservation (
   id serial primary key,
   confirmation_code varchar(255)
@@ -40,4 +42,11 @@ create table reservation_person (
 create table reservation_flight (
   reservation_id integer references reservation(id),
   flight_id integer references flight(id)
+);
+
+create table time (
+  id serial primary key,
+  date_time timestamp with time zone,
+  local_date_time_1 timestamp without time zone,
+  local_date_time_2 timestamp without time zone
 );
