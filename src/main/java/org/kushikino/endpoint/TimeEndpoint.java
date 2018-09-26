@@ -15,8 +15,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.persistence.EntityManager;
 import javax.transaction.Transactional;
-import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
+import java.time.ZoneOffset;
+import java.util.Calendar;
 
 @RestController
 @RequestMapping(
@@ -42,13 +43,12 @@ public class TimeEndpoint {
     Time time = entityManager.find(Time.class, id);
 
     if (time == null) {
-      return new ResponseEntity<TimeSchema>(HttpStatus.NOT_FOUND);
+      return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
     TimeSchema timeSchema = new TimeSchema();
-    timeSchema.setDateTime(time.getDateTime());
-    timeSchema.setLocalDateTime1(time.getLocalDateTime1());
-    timeSchema.setLocalDateTime2(time.getLocalDateTime2TheEasyWay());
+    timeSchema.setOffsetDateTime1(time.getOffsetDateTime());
+    timeSchema.setOffsetDateTime2(OffsetDateTime.ofInstant(time.getCalendar().toInstant(), ZoneOffset.UTC));
 
     return ResponseEntity.ok(timeSchema);
   }
@@ -59,13 +59,12 @@ public class TimeEndpoint {
   @Transactional
   public ResponseEntity createTime(@RequestBody TimeSchema timeSchema) {
 
-    OffsetDateTime dateTime = timeSchema.getDateTime();
-    LocalDateTime localDateTimeFromOffsetDateTime = dateTime.toLocalDateTime();
-
     Time time = new Time();
-    time.setDateTime(dateTime);
-    time.setLocalDateTime1(localDateTimeFromOffsetDateTime);
-    time.setLocalDateTime2TheEasyWay(timeSchema.getLocalDateTime2());
+    time.setOffsetDateTime(timeSchema.getOffsetDateTime1());
+
+    Calendar calendar = Calendar.getInstance();
+    calendar.setTimeInMillis(timeSchema.getOffsetDateTime2().toInstant().toEpochMilli());
+    time.setCalendar(calendar);
 
     entityManager.persist(time);
 

@@ -1,35 +1,26 @@
 package org.kushikino.model;
 
-import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
 
 public class TimeSchema {
 
-  private OffsetDateTime dateTime;
-  private LocalDateTime localDateTime1;
-  private LocalDateTime localDateTime2;
+  private OffsetDateTime offsetDateTime1;
+  private OffsetDateTime offsetDateTime2;
 
-  public OffsetDateTime getDateTime() {
-    return dateTime;
+  public OffsetDateTime getOffsetDateTime1() {
+    return offsetDateTime1;
   }
 
-  public void setDateTime(OffsetDateTime dateTime) {
-    this.dateTime = dateTime;
+  public void setOffsetDateTime1(OffsetDateTime offsetDateTime1) {
+    this.offsetDateTime1 = offsetDateTime1;
   }
 
-  public LocalDateTime getLocalDateTime1() {
-    return localDateTime1;
+  public OffsetDateTime getOffsetDateTime2() {
+    return offsetDateTime2;
   }
 
-  public void setLocalDateTime1(LocalDateTime localDateTime1) {
-    this.localDateTime1 = localDateTime1;
+  public void setOffsetDateTime2(OffsetDateTime offsetDateTime2) {
+    this.offsetDateTime2 = offsetDateTime2;
   }
 
-  public LocalDateTime getLocalDateTime2() {
-    return localDateTime2;
-  }
-
-  public void setLocalDateTime2(LocalDateTime localDateTime2) {
-    this.localDateTime2 = localDateTime2;
-  }
 }

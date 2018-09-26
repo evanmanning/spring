@@ -4,6 +4,7 @@ drop table if exists phone_number cascade;
 drop table if exists flight cascade;
 drop table if exists reservation_person cascade;
 drop table if exists reservation_flight cascade;
+drop table if exists time cascade;
 
 drop table if exists time cascade;
 
@@ -46,7 +47,6 @@ create table reservation_flight (
 
 create table time (
   id serial primary key,
-  date_time timestamp with time zone,
-  local_date_time_1 timestamp without time zone,
-  local_date_time_2 timestamp without time zone
+  ts_with_tz timestamp with time zone,
+  ts_without_tz timestamp without time zone
 );
