@@ -21,16 +21,6 @@ public class ApplicationConfig {
   }
 
   @Bean
-  public SessionFactory getSessionFactory(EntityManagerFactory entityManagerFactory) {
-    return entityManagerFactory.unwrap(SessionFactory.class);
-  }
-
-  //@Bean
-  //public EntityManager getEntityManager(EntityManagerFactory entityManagerFactory) {
-  //  return entityManagerFactory.createEntityManager();
-  //}
-
-  @Bean
   public Module module() {
     SimpleModule module = new SimpleModule();
     module.addKeySerializer(FoxColor.class, new EnumLowerCamelSerializer<FoxColor>());

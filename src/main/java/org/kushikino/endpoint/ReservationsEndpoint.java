@@ -39,7 +39,7 @@ public class ReservationsEndpoint {
     Reservation reservation = entityManager.find(Reservation.class, id);
 
     if (reservation == null) {
-      return new ResponseEntity<Reservation>(HttpStatus.NOT_FOUND);
+      return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
     return ResponseEntity.ok(reservation);

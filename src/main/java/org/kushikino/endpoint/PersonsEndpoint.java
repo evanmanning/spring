@@ -1,16 +1,17 @@
 package org.kushikino.endpoint;
 
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
 import org.kushikino.model.Person;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
 
 @RestController
 @RequestMapping(
@@ -19,11 +20,11 @@ import org.springframework.web.bind.annotation.RestController;
 )
 public class PersonsEndpoint {
 
-  private SessionFactory sessionFactory;
+  private EntityManagerFactory entityManagerFactory;
 
   @Autowired
-  public PersonsEndpoint(SessionFactory sessionFactory) {
-    this.sessionFactory = sessionFactory;
+  public PersonsEndpoint(EntityManagerFactory entityManagerFactory) {
+    this.entityManagerFactory = entityManagerFactory;
   }
 
   @RequestMapping(
@@ -31,14 +32,17 @@ public class PersonsEndpoint {
       method = RequestMethod.GET
   )
   public ResponseEntity<Person> getPerson(@PathVariable("id") int id) {
-    Session session = sessionFactory.openSession();
+    EntityManager entityManager = entityManagerFactory.createEntityManager();
 
-    session.beginTransaction();
+    entityManager.getTransaction().begin();
 
-    Person person = session.get(Person.class, id);
+    Person person = entityManager.find(Person.class, id);
 
-    session.getTransaction().commit();
-    session.close();
+    entityManager.getTransaction().commit();
+
+    if (person == null) {
+      return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
 
     return ResponseEntity.ok(person);
   }
